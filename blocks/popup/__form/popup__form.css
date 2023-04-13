@@ -1,0 +1,12 @@
+.popup__form {
+    max-width: 358px;
+    margin: 0 auto 37px;
+    padding: 0;
+}
+
+@media screen and (max-width: 565px) {
+    .popup__form {
+        max-width: 238px;
+        margin: 0 auto 25px;
+    }
+}
