@@ -3,17 +3,21 @@
     padding-bottom: 40px;
 }
 
+@media screen and (max-width: 900px) {
+    .logo {
+        padding-left: 27px;
+    }
+}
+
 @media screen and (max-width: 720px) {
     .logo {
         max-width: 103px;
         padding-bottom: 32px;
-        padding-left: 27px;
     }
 }
 
 @media screen and (max-width: 320px) {
     .logo {
-        padding-left: 27px;
         padding-bottom: 32px;
     }
 }

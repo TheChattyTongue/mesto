@@ -5,9 +5,16 @@
     margin: 0 auto;
 }
 
+@media screen and (max-width: 900px) {
+    .profile {
+        padding: 0 27px;
+    }
+}
+
 @media screen and (max-width: 720px) {
     .profile {
         flex-direction: column;
         max-width: 282px;
+        padding: 0;
     }
 }

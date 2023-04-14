@@ -9,12 +9,14 @@
     border: 1px solid #fff;
     align-self: center;
     transition: 1s;
+    border-radius: 2px;
 }
 
 @media screen and (max-width: 720px) {
     .profile__add-button {
         max-width: 282px;
-        padding: 24px 141px;
+        padding: 24px 140px;
+        background-image: url(../../../images/add-btn-mobile.svg);
     }
 }
 
