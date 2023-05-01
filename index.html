@@ -25,48 +25,7 @@
                 <button class="profile__add-button" type="button"></button>
             </section>
             <section class="elements">
-                <div class="element">
-                    <img class="element__image" src="images/karach.png" alt="Изображения Карачаевска">
-                    <div class="element__heading">
-                        <h2 class="element__name">Карачаевск</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="images/elbrus.png" alt="Изображения Эльбруса">
-                    <div class="element__heading">
-                        <h2 class="element__name">Гора Эльбрус</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="images/dombai.png" alt="Изображения Домбая">
-                    <div class="element__heading">
-                        <h2 class="element__name">Домбай</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="images/elbrus.png" alt="Изображения Эльбруса">
-                    <div class="element__heading">
-                        <h2 class="element__name">Гора Эльбрус</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="images/dombai.png" alt="Изображения Домбая">
-                    <div class="element__heading">
-                        <h2 class="element__name">Домбай</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
-                <div class="element">
-                    <img class="element__image" src="images/karach.png" alt="Изображения Карачаево-Черкесии">
-                    <div class="element__heading">
-                        <h2 class="element__name">Карачаево-Черкесия</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                </div>
+                
             </section>
         </main>
         <footer class="footer">
@@ -83,6 +42,26 @@
                 <button class="popup__close-btn" type="button"></button>
             </div>
         </div>
+        <div class="popup popup_place">
+            <div class="popup__container">
+                <h2 class="popup__name">Новое место</h2>
+                <form class="popup__form popup__form_place" name="popup-form">
+                    <input class="popup__input popup__input_type_place" type="text" name="input-place" placeholder="Название">
+                    <input class="popup__input popup__input_type_link" type="text" name="input-link" placeholder="Ссылка на картинку">
+                    <input class="popup__submit" type="submit" name="input-submit" value="Создать">
+                </form>
+                <button class="popup__close-btn" type="button"></button>
+            </div>
+        </div>
+        <template id="element">
+            <div class="element">
+                <img class="element__image" src="images/karach.png" alt="Изображения Карачаевска">
+                <div class="element__heading">
+                    <h2 class="element__name">Карачаевск</h2>
+                    <button class="element__like" type="button"></button>
+                </div>
+            </div>
+        </template>
         <script src="scripts/script.js"></script>
     </body>
 </html>
