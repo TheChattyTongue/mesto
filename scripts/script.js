@@ -1,5 +1,6 @@
 let editBtn = document.querySelector(".profile__edit-button");
 let popup = document.querySelector(".popup");
+let card = document.querySelector("#element").content
 let popupPlace = document.querySelector(".popup_place");
 let closeBtn = document.querySelectorAll(".popup__close-btn");
 let inputName = document.querySelector(".popup__input_type_name");
@@ -12,6 +13,8 @@ let profileDescription = document.querySelector(".profile__description");
 let editForm = document.querySelector(".popup__form");
 let addForm = document.querySelector(".popup__form_place")
 let elements = document.querySelector(".elements");
+let popupCrop = document.querySelector(".popup_crop");
+
 
 const initialCards = [
     {
@@ -40,12 +43,31 @@ const initialCards = [
     }
   ];
 
-let card = document.querySelector("#element").content
+
 
 for (let j = 0; j < initialCards.length; j++) {
     let cardCopy = card.querySelector(".element").cloneNode(true)
     cardCopy.querySelector(".element__name").textContent = initialCards[j].name
     cardCopy.querySelector(".element__image").src = initialCards[j].link
+
+    let like = cardCopy.querySelector(".element__like")
+    like.addEventListener("click", function (evt) {
+      evt.target.classList.toggle("element__like_active")
+    })
+
+    let trash = cardCopy.querySelector(".element__trash")
+    trash.addEventListener("click", function (evt) {
+      evt.target.parentElement.remove()
+    })
+
+
+    let cardImg = cardCopy.querySelector(".element__image")
+    cardImg.addEventListener("click", function () {
+      popupCrop.classList.add("popup_opened")
+      popupCrop.querySelector(".popup__image").src = cardImg.src
+      popupCrop.querySelector(".popup__des").textContent = cardCopy.querySelector(".element__name").textContent;
+    })
+
     elements.prepend(cardCopy)
 }
 
@@ -60,6 +82,7 @@ for (let i = 0; i < closeBtn.length; i++) {
     closeBtn[i].addEventListener("click", function () {
         popup.classList.remove("popup_opened");
         popupPlace.classList.remove("popup_opened");
+        popupCrop.classList.remove("popup_opened");
     })
 }
 
@@ -81,5 +104,32 @@ addForm.addEventListener("submit", function (evt) {
     cardCopy = card.querySelector(".element").cloneNode(true)
     cardCopy.querySelector(".element__name").textContent = inputPlace.value
     cardCopy.querySelector(".element__image").src = inputLink.value
+    inputPlace.value = ""
+    inputLink.value = ""
+
+    let like = cardCopy.querySelector(".element__like")
+    like.addEventListener("click", function (evt) {
+      evt.target.classList.toggle("element__like_active")
+    })
+
+    let trash = cardCopy.querySelector(".element__trash")
+    trash.addEventListener("click", function (evt) {
+      evt.target.parentElement.remove()
+    })
+
+    let cardImg = cardCopy.querySelector(".element__image")
+    cardImg.addEventListener("click", function (evt) {
+      popupCrop.classList.add("popup_opened")
+      popupCrop.querySelector(".popup__image").src = evt.target.src
+      popupCrop.querySelector(".popup__des").textContent = cardCopy.querySelector(".element__name").textContent;
+    })
+
     elements.prepend(cardCopy)
 })
+
+
+
+
+
+
+

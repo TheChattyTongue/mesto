@@ -1,0 +1,11 @@
+.popup__des {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    background-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    bottom: -24px;
+    color: #fff;
+}
