@@ -1,20 +1,19 @@
-let editBtn = document.querySelector(".profile__edit-button");
-let popup = document.querySelector(".popup");
-let card = document.querySelector("#element").content
-let popupPlace = document.querySelector(".popup_place");
-let closeBtn = document.querySelectorAll(".popup__close-btn");
-let inputName = document.querySelector(".popup__input_type_name");
-let inputDescription = document.querySelector(".popup__input_type_description");
-let inputPlace = document.querySelector(".popup__input_type_place");
-let inputLink = document.querySelector(".popup__input_type_link");
-let addButton = document.querySelector(".profile__add-button");
-let profileName = document.querySelector(".profile__name");
-let profileDescription = document.querySelector(".profile__description");
-let editForm = document.querySelector(".popup__form");
-let addForm = document.querySelector(".popup__form_place")
-let elements = document.querySelector(".elements");
-let popupCrop = document.querySelector(".popup_crop");
-
+const editBtn = document.querySelector(".profile__edit-button");
+const editProfilePopup = document.querySelector(".popup_edit");
+const card = document.querySelector("#element").content
+const addCardPopup = document.querySelector(".popup_place");
+const popupsCloseBtns = document.querySelectorAll(".popup__close-btn");
+const editProfileInputName = document.querySelector(".popup__input_type_name");
+const editProfileInputDescription = document.querySelector(".popup__input_type_description");
+const addCardInputPlace = document.querySelector(".popup__input_type_place");
+const addCardInputLink = document.querySelector(".popup__input_type_link");
+const addButton = document.querySelector(".profile__add-button");
+const profileName = document.querySelector(".profile__name");
+const profileDescription = document.querySelector(".profile__description");
+const editForm = document.querySelector(".popup__form_edit");
+const addForm = document.querySelector(".popup__form_place")
+const elements = document.querySelector(".elements");
+const popupImageCrop = document.querySelector(".popup_crop");
 
 const initialCards = [
     {
@@ -43,93 +42,70 @@ const initialCards = [
     }
   ];
 
+function createCard () {
+  const cardCopy = card.querySelector(".element").cloneNode(true);
+  const like = cardCopy.querySelector(".element__like");
+    like.addEventListener("click", function (evt) {
+      evt.target.classList.toggle("element__like_active");
+    })
+    const trash = cardCopy.querySelector(".element__trash");
+    trash.addEventListener("click", function (evt) {
+      evt.target.parentElement.remove();
+    })
+    const cardImg = cardCopy.querySelector(".element__image")
+    cardImg.addEventListener("click", function (evt) {
+      openPopup(popupImageCrop)
+      popupImageCrop.querySelector(".popup__image").src = evt.target.src
+      popupImageCrop.querySelector(".popup__des").textContent = cardCopy.querySelector(".element__name").textContent;
+    })
+    return cardCopy;
+}
 
+function openPopup (popup) {
+  popup.classList.add("popup_opened");
+}
+
+function closePopup (popup) {
+  popup.classList.remove("popup_opened");
+}
 
 for (let j = 0; j < initialCards.length; j++) {
-    let cardCopy = card.querySelector(".element").cloneNode(true)
-    cardCopy.querySelector(".element__name").textContent = initialCards[j].name
-    cardCopy.querySelector(".element__image").src = initialCards[j].link
-
-    let like = cardCopy.querySelector(".element__like")
-    like.addEventListener("click", function (evt) {
-      evt.target.classList.toggle("element__like_active")
-    })
-
-    let trash = cardCopy.querySelector(".element__trash")
-    trash.addEventListener("click", function (evt) {
-      evt.target.parentElement.remove()
-    })
-
-
-    let cardImg = cardCopy.querySelector(".element__image")
-    cardImg.addEventListener("click", function () {
-      popupCrop.classList.add("popup_opened")
-      popupCrop.querySelector(".popup__image").src = cardImg.src
-      popupCrop.querySelector(".popup__des").textContent = cardCopy.querySelector(".element__name").textContent;
-    })
-
-    elements.prepend(cardCopy)
+    const readyCardCopy = createCard()
+    readyCardCopy.querySelector(".element__name").textContent = initialCards[j].name;
+    readyCardCopy.querySelector(".element__image").src = initialCards[j].link;
+    elements.append(readyCardCopy)
 }
-
 
 editBtn.addEventListener("click", function () {
-    popup.classList.add("popup_opened");
-    inputName.value = profileName.textContent;
-    inputDescription.value = profileDescription.textContent;
+    openPopup(editProfilePopup)
+    editProfileInputName.value = profileName.textContent;
+    editProfileInputDescription.value = profileDescription.textContent;
 })
 
-for (let i = 0; i < closeBtn.length; i++) {
-    closeBtn[i].addEventListener("click", function () {
-        popup.classList.remove("popup_opened");
-        popupPlace.classList.remove("popup_opened");
-        popupCrop.classList.remove("popup_opened");
+for (let i = 0; i < popupsCloseBtns.length; i++) {
+    popupsCloseBtns[i].addEventListener("click", function () {
+      popupsCloseBtns[i].closest(".popup").classList.remove("popup_opened");
     })
 }
-
 
 editForm.addEventListener("submit", function (evt) {
     evt.preventDefault();
-    profileName.textContent = inputName.value;
-    profileDescription.textContent = inputDescription.value;
-    popup.classList.remove("popup_opened");
+    profileName.textContent = editProfileInputName.value;
+    profileDescription.textContent = editProfileInputDescription.value;
+    closePopup(editProfilePopup)
 })
 
 addButton.addEventListener("click", function () {
-    popupPlace.classList.add("popup_opened");
+  openPopup(addCardPopup)
 })
 
 addForm.addEventListener("submit", function (evt) {
     evt.preventDefault();
-    popupPlace.classList.remove("popup_opened");
-    cardCopy = card.querySelector(".element").cloneNode(true)
-    cardCopy.querySelector(".element__name").textContent = inputPlace.value
-    cardCopy.querySelector(".element__image").src = inputLink.value
-    inputPlace.value = ""
-    inputLink.value = ""
-
-    let like = cardCopy.querySelector(".element__like")
-    like.addEventListener("click", function (evt) {
-      evt.target.classList.toggle("element__like_active")
-    })
-
-    let trash = cardCopy.querySelector(".element__trash")
-    trash.addEventListener("click", function (evt) {
-      evt.target.parentElement.remove()
-    })
-
-    let cardImg = cardCopy.querySelector(".element__image")
-    cardImg.addEventListener("click", function (evt) {
-      popupCrop.classList.add("popup_opened")
-      popupCrop.querySelector(".popup__image").src = evt.target.src
-      popupCrop.querySelector(".popup__des").textContent = cardCopy.querySelector(".element__name").textContent;
-    })
-
-    elements.prepend(cardCopy)
+    closePopup(addCardPopup)
+    const readyCardCopy = createCard()
+    readyCardCopy.querySelector(".element__name").textContent = addCardInputPlace.value
+    readyCardCopy.querySelector(".element__image").src = addCardInputLink.value
+    addCardInputPlace.value = ""
+    addCardInputLink.value = ""
+    elements.prepend(readyCardCopy)
 })
-
-
-
-
-
-
-
