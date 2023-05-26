@@ -61,12 +61,31 @@ function createCard () {
     return cardCopy;
 }
 
+const closePopupOverlay = (evt) => {
+  if (evt.target.classList.contains("popup")) {
+    const popup = evt.target.closest(".popup");
+    closePopup(popup);
+  }
+};
+
+const closePopupEscape = (evt) => {
+  if (evt.key === 'Escape') {
+    const popup = document.querySelector('.popup_opened');
+    closePopup(popup);
+  }
+};
+
 function openPopup (popup) {
   popup.classList.add("popup_opened");
+  document.addEventListener("click", closePopupOverlay);
+  document.addEventListener('keydown', closePopupEscape);
+  resetValidation(popup);
 }
 
 function closePopup (popup) {
   popup.classList.remove("popup_opened");
+  document.removeEventListener("click", closePopupOverlay);
+  document.removeEventListener('keydown', closePopupEscape);
 }
 
 for (let j = 0; j < initialCards.length; j++) {
@@ -109,3 +128,18 @@ addForm.addEventListener("submit", function (evt) {
     addCardInputLink.value = ""
     elements.prepend(readyCardCopy)
 })
+
+const resetValidation = (popup) => {
+  const form = popup.querySelector(".popup__form");
+  const errorElements = form.querySelectorAll(".popup__input-error");
+  const inputElements = form.querySelectorAll(".popup__input");
+
+  errorElements.forEach((errorElement) => {
+    errorElement.textContent = "";
+    errorElement.classList.remove("popup__input-error_active");
+  });
+
+  inputElements.forEach((inputElement) => {
+    inputElement.classList.remove("popup__input_type_error");
+  });
+};
