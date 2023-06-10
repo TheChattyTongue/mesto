@@ -1,5 +1,5 @@
 import Card from "./Card.js"
-import FormValidator from "./validate.js"
+import FormValidator from "./FormValidator.js"
 const editingBtn = document.querySelector(".profile__edit-button");
 const editingProfilePopup = document.querySelector(".popup_edit");
 const addingCardPopup = document.querySelector(".popup_place");
@@ -68,11 +68,12 @@ const closePopupEscape = (evt) => {
 export default function openPopup (popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closePopupEscape);
-  if (popup.querySelector(".popup__submit") != null) {
-    const popupSubmitBtn = popup.querySelector(".popup__submit");
-    popupSubmitBtn.disabled = true;
-    popupSubmitBtn.classList.add("popup__submit_inactive");
-  }
+}
+
+function disableSubmitBtn (popup) {
+  const popupSubmitBtn = popup.querySelector(".popup__submit");
+  popupSubmitBtn.disabled = true;
+  popupSubmitBtn.classList.add("popup__submit_inactive");
 }
 
 function closePopup (popup) {
@@ -82,13 +83,15 @@ function closePopup (popup) {
 
 editingBtn.addEventListener("click", function () {
     openPopup(editingProfilePopup)
+    disableSubmitBtn(editingProfilePopup)
     editingProfileInputName.value = profileName.textContent;
     editingProfileInputDescription.value = profileDescription.textContent;
 })
 
 for (let i = 0; i < popupsCloseBtns.length; i++) {
     popupsCloseBtns[i].addEventListener("click", function () {
-      popupsCloseBtns[i].closest(".popup").classList.remove("popup_opened");
+      const closestPopup = popupsCloseBtns[i].closest(".popup");
+      closePopup(closestPopup);
     })
 }
 
@@ -96,11 +99,13 @@ editingForm.addEventListener("submit", function (evt) {
     evt.preventDefault();
     profileName.textContent = editingProfileInputName.value;
     profileDescription.textContent = editingProfileInputDescription.value;
-    closePopup(editingProfilePopup)
+    closePopup(editingProfilePopup);
+    
 })
 
 addingButton.addEventListener("click", function () {
   openPopup(addingCardPopup)
+  disableSubmitBtn(addingCardPopup)
 })
 
 addingForm.addEventListener("submit", function (evt) {
