@@ -5,6 +5,7 @@
     color: #FF0000;
     display: block;
     margin-bottom: 13px;
+    min-height: 30px;
 }
 
 .popup__input-error:nth-child(4) {

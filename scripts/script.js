@@ -1,6 +1,7 @@
+import Card from "./Card.js"
+import FormValidator from "./validate.js"
 const editingBtn = document.querySelector(".profile__edit-button");
 const editingProfilePopup = document.querySelector(".popup_edit");
-const card = document.querySelector("#element").content
 const addingCardPopup = document.querySelector(".popup_place");
 const popupsCloseBtns = document.querySelectorAll(".popup__close-btn");
 const editingProfileInputName = document.querySelector(".popup__input_type_name");
@@ -13,7 +14,6 @@ const profileDescription = document.querySelector(".profile__description");
 const editingForm = document.querySelector(".popup__form_edit");
 const addingForm = document.querySelector(".popup__form_place")
 const elements = document.querySelector(".elements");
-const popupImageCrop = document.querySelector(".popup_crop");
 const popups = document.querySelectorAll(".popup");
 
 const initialCards = [
@@ -43,30 +43,14 @@ const initialCards = [
     }
   ];
 
-function createCard (name, link) {
-  const cardCopy = card.querySelector(".element").cloneNode(true);
-  const like = cardCopy.querySelector(".element__like");
-    like.addEventListener("click", function (evt) {
-      evt.target.classList.toggle("element__like_active");
-    })
-    const trash = cardCopy.querySelector(".element__trash");
-    trash.addEventListener("click", function (evt) {
-      evt.target.parentElement.remove();
-    })
-    const cardImg = cardCopy.querySelector(".element__image")
-    cardImg.addEventListener("click", function (evt) {
-      openPopup(popupImageCrop)
-      popupImageCrop.querySelector(".popup__image").src = evt.target.src
-      popupImageCrop.querySelector(".popup__image").alt = cardCopy.querySelector(".element__name").textContent;
-      popupImageCrop.querySelector(".popup__des").textContent = cardCopy.querySelector(".element__name").textContent;
-    })
-
-    cardCopy.querySelector('.element__name').textContent = name;
-    cardCopy.querySelector('.element__name').alt = name;
-    cardCopy.querySelector('.element__image').src = link;
-
-    return cardCopy;
-}
+const validationSettings = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__submit",
+  inactiveButtonClass: "popup__submit_inactive",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error_active",
+};
 
 const closePopupOverlay = (evt) => {
   if (evt.target.classList.contains("popup")) {
@@ -81,7 +65,7 @@ const closePopupEscape = (evt) => {
   }
 };
 
-function openPopup (popup) {
+export default function openPopup (popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closePopupEscape);
   if (popup.querySelector(".popup__submit") != null) {
@@ -94,11 +78,6 @@ function openPopup (popup) {
 function closePopup (popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener('keydown', closePopupEscape);
-}
-
-for (let j = 0; j < initialCards.length; j++) {
-  const readyCardCopy = createCard(initialCards[j].name, initialCards[j].link);
-  elements.append(readyCardCopy);
 }
 
 editingBtn.addEventListener("click", function () {
@@ -131,10 +110,27 @@ addingForm.addEventListener("submit", function (evt) {
     const link = addingCardInputLink.value;
     addingCardInputPlace.value = ""
     addingCardInputLink.value = ""
-    const readyCardCopy = createCard(name, link);
+    const readyCardCopy = renderCard(name, link, '#element');
     elements.prepend(readyCardCopy)
 })
 
 for (let i = 0; i < popups.length; i++) {
   popups[i].addEventListener("click", closePopupOverlay);
 }
+
+function renderCard(name, link, templateSelector) {
+  const card = new Card(name, link, templateSelector);
+  return card.createCard();
+}
+
+for (let j = 0; j < initialCards.length; j++) {
+  const card = initialCards[j];
+  const cardElement = renderCard(card.name, card.link, '#element');
+  elements.append(cardElement);
+}
+
+const forms = Array.from(document.querySelectorAll(validationSettings.formSelector));
+forms.forEach((formElement) => {
+  const formValidator = new FormValidator(validationSettings, formElement);
+  formValidator.enableValidation();
+});
