@@ -70,20 +70,14 @@ export default function openPopup (popup) {
   document.addEventListener("keydown", closePopupEscape);
 }
 
-function disableSubmitBtn (popup) {
-  const popupSubmitBtn = popup.querySelector(".popup__submit");
-  popupSubmitBtn.disabled = true;
-  popupSubmitBtn.classList.add("popup__submit_inactive");
-}
-
 function closePopup (popup) {
   popup.classList.remove("popup_opened");
   document.removeEventListener('keydown', closePopupEscape);
 }
 
 editingBtn.addEventListener("click", function () {
-    openPopup(editingProfilePopup)
-    disableSubmitBtn(editingProfilePopup)
+    openPopup(editingProfilePopup);
+    editingFormValidation.disableSubmitButton();
     editingProfileInputName.value = profileName.textContent;
     editingProfileInputDescription.value = profileDescription.textContent;
 })
@@ -104,8 +98,8 @@ editingForm.addEventListener("submit", function (evt) {
 })
 
 addingButton.addEventListener("click", function () {
-  openPopup(addingCardPopup)
-  disableSubmitBtn(addingCardPopup)
+  openPopup(addingCardPopup);
+  addingFormValidation.disableSubmitButton();
 })
 
 addingForm.addEventListener("submit", function (evt) {
@@ -134,8 +128,8 @@ for (let j = 0; j < initialCards.length; j++) {
   elements.append(cardElement);
 }
 
-const forms = Array.from(document.querySelectorAll(validationSettings.formSelector));
-forms.forEach((formElement) => {
-  const formValidator = new FormValidator(validationSettings, formElement);
-  formValidator.enableValidation();
-});
+const addingFormValidation = new FormValidator(validationSettings, addingForm);
+addingFormValidation.enableValidation();
+
+const editingFormValidation = new FormValidator(validationSettings, editingForm);
+editingFormValidation.enableValidation();
